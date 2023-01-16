@@ -43,8 +43,17 @@ public class CarEasyTest {
     @Test
     public void test_drive_to_possibility() {
         myFerrari.driveTo("Test");
+        EasyMock.expectLastCall();
         EasyMock.expect(myFerrari.needsFuel()).andReturn(true);
         EasyMock.replay(myFerrari);
         assertTrue(myFerrari.needsFuel());
+    }
+
+    @Test
+    public void driveToWrongDestination() {
+        myFerrari.driveTo("Wrong dest");
+        EasyMock.expectLastCall().andThrow(new IllegalArgumentException());
+        EasyMock.replay(myFerrari);
+        assertThrows(IllegalArgumentException.class, () -> myFerrari.driveTo("Wrong dest"));
     }
 }
