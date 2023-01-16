@@ -95,4 +95,15 @@ public class FriendshipsMongoEasyMockTest {
     public void notOnAList() {
         assertThat(friendships.getFriendsList("Mark")).isEmpty();
     }
+
+    @Test
+    public void isNotEmpty() {
+        List<String> joesFriends = Arrays.asList(new String[]{"Bart"});
+        Person joe = createMock(Person.class);
+        expect(friends.findByName("Joe")).andReturn(joe);
+        expect(joe.getFriends()).andReturn(joesFriends);
+        replay(friends);
+        replay(joe);
+        assertThat(friendships.getFriendsList("Joe")).isNotEmpty();
+    }
 }
